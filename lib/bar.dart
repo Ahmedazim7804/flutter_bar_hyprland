@@ -1,5 +1,8 @@
-import 'package:bar/widgets/startIcon.dart';
+import 'package:bar/streams/media_stream.dart';
+import 'package:bar/widgets/media_widget.dart';
+import 'package:bar/widgets/start_icon.dart';
 import 'package:bar/widgets/workspace.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyBar extends StatefulWidget {
@@ -18,12 +21,12 @@ class _MyBarState extends State<MyBar> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        backgroundColor: Color(0xFF1A120E),
-        body: SizedBox(
-          height: 40,
-          child: Row(
-            children: [StartIcon(), Workspace()],
+    return Scaffold(
+        backgroundColor: const Color(0xFF1A120E),
+        body: Container(
+          child: const Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [StartIcon(), Workspace(), MediaWidget()],
           ),
         ));
   }

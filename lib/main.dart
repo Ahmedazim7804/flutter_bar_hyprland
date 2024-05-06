@@ -1,3 +1,4 @@
+import 'package:bar/bloc/cubit/media_cubit.dart';
 import 'package:bar/bloc/cubit/workspace_cubit.dart';
 import 'package:bar/streams/hyprland_stream.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,11 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   FlutterLayerShell.configure(edge: LayerShellEdge.TOP, size: 40);
   runApp(MaterialApp(
-    home: BlocProvider<WorkspaceCubit>(
-      create: (context) => WorkspaceCubit(),
+    home: MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => WorkspaceCubit()),
+        BlocProvider(create: (context) => MediaCubit()),
+      ],
       child: const MyBar(),
     ),
   ));

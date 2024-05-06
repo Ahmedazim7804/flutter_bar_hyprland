@@ -39,6 +39,8 @@ dependencies:
   flutter_bloc: ^8.1.5
   get_it: ^7.7.0
   process_run: ^0.14.2
+  mini_music_visualizer: ^1.1.4
+  marquee: ^2.2.3
 
 dev_dependencies:
   flutter_test:

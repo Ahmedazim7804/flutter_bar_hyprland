@@ -22,6 +22,7 @@ class _WorkspaceState extends State<Workspace> {
     return BlocBuilder<WorkspaceCubit, WorkspaceState>(
       builder: (context, state) {
         return Container(
+          margin: const EdgeInsets.symmetric(vertical: 5),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
           decoration: const BoxDecoration(
               color: Colors.grey,
