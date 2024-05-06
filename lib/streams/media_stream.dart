@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:process_run/shell.dart';
 
@@ -65,8 +66,10 @@ class MediaStream {
         "playerctl -a metadata --format '{\"artist\": \"{{artist}}\", \"title\": \"{{markup_escape(title)}}\", \"status\": \"{{status}}\", \"player\": \"{{playerName}}\"}' -F";
     _shell.run(command);
 
-    shellLinesController.stream.listen((event) {
-      eventListener.sink.add(MediaStatus.fromJson(event));
-    });
+    shellLinesController.stream.listen(
+      (event) {
+        eventListener.sink.add(MediaStatus.fromJson(event));
+      },
+    );
   }
 }

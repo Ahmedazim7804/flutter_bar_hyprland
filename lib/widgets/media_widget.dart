@@ -22,6 +22,10 @@ class _MediaWidgetState extends State<MediaWidget> {
           return MediaStatePlayingContentWidget(
             mediaStatus: state.mediaStatus,
           );
+        } else if (state is MediaStatePaused) {
+          return MediaStatePausedContentWidget(
+            mediaStatus: state.mediaStatus,
+          );
         } else {
           return const SizedBox.shrink();
         }
@@ -69,6 +73,7 @@ class MediaStatePlayingContentWidget extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
+          const Icon(Icons.music_note, color: Colors.white),
           Expanded(
             child: Marquee(
               text: "${mediaStatus.artist} - ${mediaStatus.title}",
@@ -84,6 +89,64 @@ class MediaStatePlayingContentWidget extends StatelessWidget {
               decelerationDuration: const Duration(milliseconds: 500),
               decelerationCurve: Curves.easeInOut,
             ),
+          )
+        ],
+      ),
+      // SizedBox(
+      //   width: 200,
+      //   child: ClipRRect(
+      //     borderRadius: BorderRadius.circular(20),
+      //     child:
+      //         Image.asset('assets/media_background.png', fit: BoxFit.cover),
+      //   ),
+      // ),
+    );
+  }
+}
+
+class MediaStatePausedContentWidget extends StatelessWidget {
+  const MediaStatePausedContentWidget({super.key, required this.mediaStatus});
+  final MediaStatus mediaStatus;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      width: 250,
+      decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(20),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: Image.asset('assets/media_background.png').image,
+          )),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const InkWell(
+            child: Icon(
+              Icons.arrow_back_rounded,
+              size: 24,
+              color: Colors.white,
+            ),
+          ),
+          const Icon(
+            Icons.play_arrow_outlined,
+            size: 24,
+            color: Colors.white,
+          ),
+          const Icon(
+            Icons.arrow_forward_rounded,
+            size: 24,
+            color: Colors.white,
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: Text("${mediaStatus.artist} - ${mediaStatus.title}",
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.white)),
           )
         ],
       ),
