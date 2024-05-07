@@ -4,7 +4,7 @@
 import 'dart:io';
 import 'package:dbus/dbus.dart';
 
-enum BatteryState {
+enum BatteryCharging {
   UNKNOWN(0),
   CHARGING(1),
   DISCHARGING(2),
@@ -13,24 +13,24 @@ enum BatteryState {
   PENDING_CHARGE(5),
   PENDING_DISCHARGE(6);
 
-  const BatteryState(this.value);
+  const BatteryCharging(this.value);
   final int value;
 
-  static BatteryState fromValue(int value) {
+  static BatteryCharging fromValue(int value) {
     if (value == 0) {
-      return BatteryState.UNKNOWN;
+      return BatteryCharging.UNKNOWN;
     } else if (value == 1) {
-      return BatteryState.CHARGING;
+      return BatteryCharging.CHARGING;
     } else if (value == 2) {
-      return BatteryState.DISCHARGING;
+      return BatteryCharging.DISCHARGING;
     } else if (value == 3) {
-      return BatteryState.EMPTY;
+      return BatteryCharging.EMPTY;
     } else if (value == 4) {
-      return BatteryState.FULLY_CHARGED;
+      return BatteryCharging.FULLY_CHARGED;
     } else if (value == 5) {
-      return BatteryState.PENDING_CHARGE;
+      return BatteryCharging.PENDING_CHARGE;
     } else if (value == 6) {
-      return BatteryState.PENDING_DISCHARGE;
+      return BatteryCharging.PENDING_DISCHARGE;
     } else {
       throw ArgumentError('Invalid value: $value');
     }
@@ -50,10 +50,10 @@ class OrgFreedesktopUPowerDeviceAdded extends DBusSignal {
             values: signal.values);
 }
 
-class OrgFreedesktopUPowerBatteryState extends DBusSignal {
+class OrgFreedesktopUPowerBatteryChargingState extends DBusSignal {
   int get newState => values[0].asInt32();
 
-  OrgFreedesktopUPowerBatteryState(DBusSignal signal)
+  OrgFreedesktopUPowerBatteryChargingState(DBusSignal signal)
       : super(
             sender: signal.sender,
             path: signal.path,
@@ -109,11 +109,23 @@ class OrgFreedesktopUPower extends DBusRemoteObject {
     return value.asString();
   }
 
-  /// Gets org.freedesktop.UPower.OnBattery
-  Future<bool> getOnBattery() async {
-    var value = await getProperty('org.freedesktop.UPower', 'OnBattery',
+  /// Gets org.freedesktop.UPower.OnBatteryCharging
+  Future<bool> getOnBatteryCharging() async {
+    var value = await getProperty('org.freedesktop.UPower', 'OnBatteryCharging',
         signature: DBusSignature('b'));
     return value.asBoolean();
+  }
+
+  Future<double> getPercentage() async {
+    var value = await getProperty('org.freedesktop.UPower.Device', 'Percentage',
+        signature: DBusSignature('d'));
+    return value.asDouble();
+  }
+
+  Future<int> getState() async {
+    var value = await getProperty('org.freedesktop.UPower.Device', 'State',
+        signature: DBusSignature('u'));
+    return value.asUint32();
   }
 
   /// Gets org.freedesktop.UPower.LidIsClosed
