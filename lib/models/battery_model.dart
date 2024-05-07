@@ -14,6 +14,6 @@ class Battery {
   late final bool lowBattery;
 
   static Battery empty() {
-    return Battery(chargingState: BatteryCharging.UNKNOWN, percentage: 0);
+    return Battery(chargingState: BatteryCharging.DISCHARGING, percentage: 0);
   }
 }

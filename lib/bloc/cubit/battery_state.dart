@@ -5,10 +5,6 @@ sealed class BatteryState {
   final Battery battery;
 }
 
-final class BatteryInitial extends BatteryState {
-  BatteryInitial({required Battery battery}) : super(battery: battery);
-}
-
 final class BatteryStateCharging extends BatteryState {
   const BatteryStateCharging({required Battery battery})
       : super(battery: battery);

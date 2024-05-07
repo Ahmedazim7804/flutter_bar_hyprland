@@ -8,17 +8,15 @@ part 'battery_state.dart';
 class BatteryCubit extends Cubit<BatteryState> {
   final BatteryStream batteryStream = BatteryStream();
 
-  BatteryCubit() : super(BatteryInitial(battery: Battery.empty())) {
-    batteryStream
-        .getBatteryInfo()
-        .then((Battery battery) => emit(BatteryInitial(battery: battery)));
+  BatteryCubit() : super(BatteryStateDischarging(battery: Battery.empty())) {
+    batteryStream.getBatteryInfo().then(
+        (Battery battery) => emit(BatteryStateDischarging(battery: battery)));
 
     listenForChanges();
   }
 
   void listenForChanges() {
     batteryStream.eventListener.stream.listen((battery) {
-      print(battery.chargingState);
       if (battery.chargingState == BatteryCharging.CHARGING) {
         emit(BatteryStateCharging(battery: battery));
       } else {
