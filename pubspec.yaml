@@ -41,6 +41,7 @@ dependencies:
   process_run: ^0.14.2
   mini_music_visualizer: ^1.1.4
   marquee: ^2.2.3
+  dbus: ^0.7.10
 
 dev_dependencies:
   flutter_test:
