@@ -1,4 +1,5 @@
 import 'package:bar/bloc/cubit/battery_cubit.dart';
+import 'package:bar/bloc/cubit/bluetooth_cubit.dart';
 import 'package:bar/bloc/cubit/media_cubit.dart';
 import 'package:bar/bloc/cubit/network_cubit.dart';
 import 'package:bar/bloc/cubit/workspace_cubit.dart';
@@ -19,7 +20,8 @@ void main() {
         BlocProvider(
           create: (context) => BatteryCubit(),
         ),
-        BlocProvider(create: (context) => NetworkCubit())
+        BlocProvider(create: (context) => NetworkCubit()),
+        BlocProvider(create: (context) => BluetoothCubit())
       ],
       child: const MyBar(),
     ),
