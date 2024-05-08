@@ -1,5 +1,6 @@
 import 'package:bar/bloc/cubit/battery_cubit.dart';
 import 'package:bar/bloc/cubit/media_cubit.dart';
+import 'package:bar/bloc/cubit/network_cubit.dart';
 import 'package:bar/bloc/cubit/workspace_cubit.dart';
 import 'package:bar/streams/hyprland_stream.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,10 @@ void main() {
       providers: [
         BlocProvider(create: (context) => WorkspaceCubit()),
         BlocProvider(create: (context) => MediaCubit()),
-        BlocProvider(create: (context) => BatteryCubit())
+        BlocProvider(
+          create: (context) => BatteryCubit(),
+        ),
+        BlocProvider(create: (context) => NetworkCubit())
       ],
       child: const MyBar(),
     ),

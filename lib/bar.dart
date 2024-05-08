@@ -2,6 +2,7 @@ import 'package:bar/streams/media_stream.dart';
 import 'package:bar/widgets/media_widget.dart';
 import 'package:bar/widgets/power_widget.dart';
 import 'package:bar/widgets/start_icon.dart';
+import 'package:bar/widgets/systray_widget.dart';
 import 'package:bar/widgets/workspace.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,17 @@ class _MyBarState extends State<MyBar> {
         body: Container(
           child: const Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [StartIcon(), Workspace(), MediaWidget(), PowerWidget()],
+            children: [
+              StartIcon(),
+              Workspace(),
+              MediaWidget(),
+              SystemTray(),
+              Spacer(),
+              PowerWidget(),
+              SizedBox(
+                width: 50,
+              )
+            ],
           ),
         ));
   }
