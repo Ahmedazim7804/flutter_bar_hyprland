@@ -16,6 +16,7 @@ class BluetoothCubit extends Cubit<BluetoothState> {
       if (event.enabled) {
         if (event.connectedDevices.isEmpty) {
           emit(BluetoothDisconnected());
+          return;
         }
 
         final BluetoothDevice device = event.connectedDevices.first;
@@ -25,9 +26,9 @@ class BluetoothCubit extends Cubit<BluetoothState> {
         } else {
           emit(BluetoothConnecting());
         }
+      } else {
+        emit(BluetoothDisabled());
       }
-
-      emit(BluetoothDisabled());
     });
   }
 }

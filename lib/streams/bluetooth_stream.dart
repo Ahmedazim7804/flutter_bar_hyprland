@@ -10,37 +10,41 @@ import 'dart:async';
 
 class BluetoothStream {
   final client = DBusClient.system();
-  late final OrgBluez object;
+  late final OrgBluez _orgBluezDbus;
+  late final OrgBluezHCI0 _orgBluezHCI0;
   final StreamController<BluetoothService> bluetoothService =
       StreamController<BluetoothService>();
 
   BluetoothStream() {
-    object = OrgBluez(client, 'org.bluez', path: DBusObjectPath('/'));
+    _orgBluezDbus = OrgBluez(client, 'org.bluez', path: DBusObjectPath('/'));
+    _orgBluezHCI0 = OrgBluezHCI0(client, 'org.bluez',
+        path: DBusObjectPath('/org/bluez/hci0'));
     _startBluetoothServiceStream();
   }
 
   Future<void> _getInitialState() async {
-    await object.intialize();
+    await _orgBluezDbus.intialize();
+    await _orgBluezHCI0.intialize();
 
     bluetoothService.sink.add(BluetoothService(
-        connectedDevices: object.connectedDevices,
-        discovering: object.isBluetoothDiscovering,
-        enabled: object.isBluetoothEnabled));
+        connectedDevices: _orgBluezDbus.connectedDevices,
+        discovering: _orgBluezHCI0.isBluetoothDiscovering,
+        enabled: _orgBluezHCI0.isBluetoothEnabled));
   }
 
   Future<void> _startBluetoothServiceStream() async {
     await _getInitialState();
 
     final streamGroup = StreamGroup.merge([
-      object.bluetoothEnabled.stream,
-      object.connectedDevicesStream.stream,
+      _orgBluezHCI0.bluetoothEnabled.stream,
+      _orgBluezDbus.connectedDevicesStream.stream,
     ]);
 
     streamGroup.listen((event) {
       bluetoothService.sink.add(BluetoothService(
-          connectedDevices: object.connectedDevices,
-          discovering: object.isBluetoothDiscovering,
-          enabled: object.isBluetoothEnabled));
+          connectedDevices: _orgBluezDbus.connectedDevices,
+          discovering: _orgBluezHCI0.isBluetoothDiscovering,
+          enabled: _orgBluezHCI0.isBluetoothEnabled));
     });
   }
 }

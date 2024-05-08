@@ -27,21 +27,51 @@ class OrgBluezInterfaceRemoved extends DBusSignal {
             values: signal.values);
 }
 
+class OrgBluezHCI0 extends DBusRemoteObject {
+  bool isBluetoothEnabled = false;
+  bool isBluetoothDiscovering = false;
+  final StreamController<bool> bluetoothEnabled = StreamController<bool>();
+  final StreamController<bool> bluetoothDiscovering = StreamController<bool>();
+  OrgBluezHCI0(DBusClient client, String destination,
+      {DBusObjectPath path = const DBusObjectPath.unchecked('/hci0')})
+      : super(client, name: destination, path: path);
+
+  Future<void> intialize() async {
+    final allProps = await getAllProperties('org.bluez.Adapter1');
+
+    isBluetoothEnabled = allProps['Powered']!.asBoolean();
+    isBluetoothDiscovering = allProps['Discovering']!.asBoolean();
+
+    _startBluetoothHardwareStream();
+  }
+
+  void _startBluetoothHardwareStream() {
+    propertiesChanged.listen((event) {
+      if (event.changedProperties.containsKey('Powered')) {
+        bool value = event.changedProperties['Powered']!.asBoolean();
+        isBluetoothEnabled = value;
+        bluetoothEnabled.sink.add(value);
+      }
+
+      if (event.changedProperties.containsKey('Discovering')) {
+        bool value = event.changedProperties['Discovering']!.asBoolean();
+        isBluetoothDiscovering = value;
+        bluetoothEnabled.sink.add(value);
+      }
+    });
+  }
+}
+
 class OrgBluez extends DBusRemoteObject {
   late final Stream<OrgBluezInterfaceAdded> interfaceAdded;
   late final Stream<OrgBluezInterfaceRemoved> interfaceRemoved;
 
   final List<BluetoothDevice> allDevices = [];
   final List<BluetoothDevice> connectedDevices = [];
-  bool isBluetoothEnabled = false;
-  bool isBluetoothDiscovering = false;
 
   // late final Stream changesInDevices;
   final StreamController<List<BluetoothDevice>> connectedDevicesStream =
       StreamController<List<BluetoothDevice>>();
-
-  final StreamController<bool> bluetoothEnabled = StreamController<bool>();
-  final StreamController<bool> bluetoothDiscovering = StreamController<bool>();
 
   OrgBluez(DBusClient client, String destination,
       {DBusObjectPath path = const DBusObjectPath.unchecked('/')})
@@ -90,7 +120,6 @@ class OrgBluez extends DBusRemoteObject {
     }
 
     _startConnectedDeviceStream();
-    _startBluetoothHardwareStream();
   }
 
   void _startConnectedDeviceStream() {
@@ -144,25 +173,6 @@ class OrgBluez extends DBusRemoteObject {
     }
 
     return allDevices;
-  }
-
-  void _startBluetoothHardwareStream() {
-    final object = DBusRemoteObject(client,
-        name: 'org.bluez', path: DBusObjectPath('/org/bluez/hci0'));
-
-    object.propertiesChanged.listen((event) {
-      if (event.changedProperties.containsKey('Powered')) {
-        bool value = event.changedProperties['Powered']!.asBoolean();
-        isBluetoothEnabled = value;
-        bluetoothEnabled.sink.add(value);
-      }
-
-      if (event.changedProperties.containsKey('Discovering')) {
-        bool value = event.changedProperties['Discovering']!.asBoolean();
-        isBluetoothDiscovering = value;
-        bluetoothEnabled.sink.add(value);
-      }
-    });
   }
 
   Future<List<DBusValue>> getObjectManagersObjects() async {

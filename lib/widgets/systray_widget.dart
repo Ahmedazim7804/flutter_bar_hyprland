@@ -10,6 +10,10 @@ class SystemTray extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        margin: const EdgeInsets.symmetric(vertical: 3),
+        decoration: BoxDecoration(
+            color: Colors.grey.shade800,
+            borderRadius: BorderRadius.circular(20)),
         alignment: Alignment.center,
         child: const Row(
           children: [NetworkWidget(), BluetoothWidget()],

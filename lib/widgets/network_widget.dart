@@ -13,11 +13,10 @@ class NetworkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5),
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.grey,
+        color: Colors.grey.shade900,
       ),
       child: BlocBuilder<NetworkCubit, NetworkState>(builder: (context, state) {
         if (state is NetworkDisabled) {
