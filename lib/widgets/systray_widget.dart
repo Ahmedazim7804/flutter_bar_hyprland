@@ -1,4 +1,5 @@
 import 'package:bar/widgets/bluetooth_widget.dart';
+import 'package:bar/widgets/brightness_widget.dart';
 import 'package:bar/widgets/network_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class SystemTray extends StatelessWidget {
         alignment: Alignment.center,
         child: const Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [NetworkWidget(), BluetoothWidget()],
+          children: [NetworkWidget(), BluetoothWidget(), BrightnessWidget()],
         ));
   }
 }
