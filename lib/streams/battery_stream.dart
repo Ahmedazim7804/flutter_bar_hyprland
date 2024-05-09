@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:bar/dbus/upower_dbus.dart';
 import 'package:bar/models/battery_model.dart';
 import 'package:dbus/dbus.dart';
-import 'package:flutter/cupertino.dart';
 
 class BatteryStream {
   final StreamController eventListener = StreamController<Battery>.broadcast();
@@ -18,19 +17,16 @@ class BatteryStream {
   }
 
   Future<Battery> getBatteryInfo() async {
-    double perc = await _object.getPercentage();
-    int state = await _object.getState();
+    double perc = (await _object.getPercentage()).asDouble();
+    int state = (await _object.getState()).asUint32();
 
     return Battery(
         chargingState: BatteryCharging.fromValue(state), percentage: perc);
   }
 
   void _startStream() {
-    _object.propertiesChanged.listen((signal) async {
-      if (signal.changedProperties.containsKey("State") ||
-          signal.changedProperties.containsKey("Percentage")) {
-        eventListener.sink.add(await getBatteryInfo());
-      }
+    _object.getStreamOf({'State', 'Percentage'}).listen((event) async {
+      eventListener.sink.add(Battery.fromJson(event));
     });
   }
 }

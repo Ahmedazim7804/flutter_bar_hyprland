@@ -1,7 +1,7 @@
 // This file was generated using the following command and may be overwritten.
 // dart-dbus generate-remote-object /usr/share/dbus-1/interfaces/org.freedesktop.UPower.xml
 
-import 'dart:io';
+import 'dart:async';
 import 'package:dbus/dbus.dart';
 
 enum BatteryCharging {
@@ -82,6 +82,9 @@ class OrgFreedesktopUPower extends DBusRemoteObject {
   /// Stream of org.freedesktop.UPower.DeviceRemoved signals.
   late final Stream<OrgFreedesktopUPowerDeviceRemoved> deviceRemoved;
 
+  late final Map<Set<String>, StreamController<Map<String, DBusValue?>>>
+      streamMap = {};
+
   OrgFreedesktopUPower(DBusClient client, String destination,
       {DBusObjectPath path = const DBusObjectPath.unchecked('/')})
       : super(client, name: destination, path: path) {
@@ -100,46 +103,96 @@ class OrgFreedesktopUPower extends DBusRemoteObject {
             signature: DBusSignature('o'))
         .asBroadcastStream()
         .map((signal) => OrgFreedesktopUPowerDeviceRemoved(signal));
+
+    listenForPropertiesChanges();
+  }
+
+  Stream<Map<String, DBusValue?>> getStreamOf(Set<String> props) {
+    if (streamMap.keys.toSet().intersection(props).isEmpty) {
+      StreamController<Map<String, DBusValue?>> streamController =
+          StreamController<Map<String, DBusValue?>>();
+      streamMap[props] = streamController;
+      return streamController.stream;
+    } else {
+      return streamMap[props]!.stream;
+    }
+  }
+
+  Future<DBusValue?> _getProperty(String property) async {
+    if (property == 'State') {
+      return await getState();
+    } else if (property == "Percentage") {
+      return await getPercentage();
+    }
+    return null;
+  }
+
+  Future<void> broadcastPropChange(
+      Set<String> props, Map<String, DBusValue> changedProperties) async {
+    Map<String, DBusValue?> propsToBroadcast = {};
+
+    for (String element in props) {
+      if (changedProperties.containsKey(element)) {
+        propsToBroadcast[element] = changedProperties[element];
+      } else {
+        propsToBroadcast[element] = await _getProperty(element);
+      }
+    }
+
+    streamMap[props]!.sink.add(propsToBroadcast);
+  }
+
+  Future<void> listenForPropertiesChanges() async {
+    propertiesChanged.listen((signal) {
+      for (var props in streamMap.keys) {
+        if (signal.changedProperties.keys
+            .toSet()
+            .intersection(props)
+            .isNotEmpty) {
+          broadcastPropChange(props, signal.changedProperties);
+        }
+      }
+    });
   }
 
   /// Gets org.freedesktop.UPower.DaemonVersion
-  Future<String> getDaemonVersion() async {
+  Future<DBusValue> getDaemonVersion() async {
     var value = await getProperty('org.freedesktop.UPower', 'DaemonVersion',
         signature: DBusSignature('s'));
-    return value.asString();
+    return value;
   }
 
   /// Gets org.freedesktop.UPower.OnBatteryCharging
-  Future<bool> getOnBatteryCharging() async {
+  Future<DBusValue> getOnBatteryCharging() async {
     var value = await getProperty('org.freedesktop.UPower', 'OnBatteryCharging',
         signature: DBusSignature('b'));
-    return value.asBoolean();
+    return value;
   }
 
-  Future<double> getPercentage() async {
+  Future<DBusValue> getPercentage() async {
     var value = await getProperty('org.freedesktop.UPower.Device', 'Percentage',
         signature: DBusSignature('d'));
-    return value.asDouble();
+    return value;
   }
 
-  Future<int> getState() async {
+  Future<DBusValue> getState() async {
     var value = await getProperty('org.freedesktop.UPower.Device', 'State',
         signature: DBusSignature('u'));
-    return value.asUint32();
+    return value;
   }
 
   /// Gets org.freedesktop.UPower.LidIsClosed
-  Future<bool> getLidIsClosed() async {
+  Future<DBusValue> getLidIsClosed() async {
     var value = await getProperty('org.freedesktop.UPower', 'LidIsClosed',
         signature: DBusSignature('b'));
-    return value.asBoolean();
+    return value;
   }
 
   /// Gets org.freedesktop.UPower.LidIsPresent
-  Future<bool> getLidIsPresent() async {
+  Future<DBusValue> getLidIsPresent() async {
     var value = await getProperty('org.freedesktop.UPower', 'LidIsPresent',
         signature: DBusSignature('b'));
-    return value.asBoolean();
+    return value;
   }
 
   /// Invokes org.freedesktop.UPower.EnumerateDevices()

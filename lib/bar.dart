@@ -1,10 +1,8 @@
-import 'package:bar/streams/media_stream.dart';
 import 'package:bar/widgets/media_widget.dart';
 import 'package:bar/widgets/power_widget.dart';
 import 'package:bar/widgets/start_icon.dart';
 import 'package:bar/widgets/systray_widget.dart';
 import 'package:bar/widgets/workspace.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MyBar extends StatefulWidget {
@@ -32,8 +30,8 @@ class _MyBarState extends State<MyBar> {
               StartIcon(),
               Workspace(),
               MediaWidget(),
-              SystemTray(),
               Spacer(),
+              SystemTray(),
               PowerWidget(),
               SizedBox(
                 width: 50,

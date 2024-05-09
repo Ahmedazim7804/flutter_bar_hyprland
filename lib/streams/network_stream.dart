@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'package:bar/dbus/network_dbus.dart';
-import 'package:bar/dbus/upower_dbus.dart';
-import 'package:bar/models/battery_model.dart';
 import 'package:bar/models/network_model.dart';
 import 'package:dbus/dbus.dart';
-import 'package:flutter/cupertino.dart';
 
 enum NetworkMetered {
   METERED_UNKNOWN(0),
@@ -169,7 +166,7 @@ class NetworkStream {
         allProps['PrimaryConnectionType']!.asString().contains("wireless")
             ? true
             : false;
-    bool wifiOn = allProps['WirelessEnabled']!.asBoolean();
+    // bool wifiOn = allProps['WirelessEnabled']!.asBoolean();
     int metered = allProps['Metered']!.asUint32();
     int connectivity = allProps['Connectivity']!.asUint32();
 

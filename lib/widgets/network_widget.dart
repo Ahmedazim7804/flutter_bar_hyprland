@@ -1,11 +1,9 @@
 import 'package:bar/bloc/cubit/network_cubit.dart';
 import 'package:bar/models/network_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:lottie/lottie.dart';
 
 class NetworkWidget extends StatelessWidget {
   const NetworkWidget({super.key});

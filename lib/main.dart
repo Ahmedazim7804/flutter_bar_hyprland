@@ -3,7 +3,6 @@ import 'package:bar/bloc/cubit/bluetooth_cubit.dart';
 import 'package:bar/bloc/cubit/media_cubit.dart';
 import 'package:bar/bloc/cubit/network_cubit.dart';
 import 'package:bar/bloc/cubit/workspace_cubit.dart';
-import 'package:bar/streams/hyprland_stream.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_layer_shell/flutter_layer_shell.dart';

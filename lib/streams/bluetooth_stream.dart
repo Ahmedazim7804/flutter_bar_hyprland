@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:bar/dbus/bluetooth_dbus.dart';
 import 'package:bar/models/bluetooth_model.dart';
-import 'package:bluez/bluez.dart';
+
 import 'package:dbus/dbus.dart';
 import 'package:async/async.dart';
-import 'dart:async';
 
 class BluetoothStream {
   final client = DBusClient.system();
