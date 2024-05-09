@@ -1,20 +1,25 @@
 import 'package:bar/bloc/cubit/battery_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:rainbow_color/rainbow_color.dart';
 
 class PowerWidget extends StatelessWidget {
   const PowerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BatteryCubit, BatteryState>(
-      builder: (context, state) {
-        if (state is BatteryStateCharging) {
-          return BatteryChargingWidget(percentage: state.battery.percentage);
-        } else {
-          return BatteryDischargingWidget(percentage: state.battery.percentage);
-        }
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: BlocBuilder<BatteryCubit, BatteryState>(
+        builder: (context, state) {
+          if (state is BatteryStateCharging) {
+            return BatteryChargingWidget(percentage: state.battery.percentage);
+          } else {
+            return BatteryDischargingWidget(
+                percentage: state.battery.percentage);
+          }
+        },
+      ),
     );
   }
 }
@@ -40,7 +45,7 @@ class BatteryChargingWidget extends StatelessWidget {
             Container(
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.symmetric(vertical: 8),
-              width: 150,
+              width: 100,
               decoration: BoxDecoration(
                 color: Colors.black87,
                 borderRadius: BorderRadius.circular(20),
@@ -70,7 +75,7 @@ class BatteryChargingWidget extends StatelessWidget {
 
 class BatteryDischargingWidget extends StatelessWidget {
   const BatteryDischargingWidget({super.key, required this.percentage});
-  final Color color = Colors.grey;
+
   final double percentage;
 
   IconData getBatteryIcon() {
@@ -95,13 +100,31 @@ class BatteryDischargingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Rainbow rainbow = Rainbow(
+      spectrum: [
+        Colors.red.shade900,
+        Colors.red.shade800,
+        const Color(0xFFc05d0c),
+        const Color(0xFFd8690d),
+        const Color(0xFF019e64),
+        const Color(0xFF01b270),
+        const Color(0xFF02c67d),
+        // Colors.greenAccent.shade200,
+        // Colors.greenAccent.shade400,
+        // Colors.greenAccent.shade700,
+        // const Color(0xFF02C67D),
+        // Colors.lightGreen,
+      ],
+      rangeStart: 0,
+      rangeEnd: 100,
+    );
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
         Icon(
           getBatteryIcon(),
-          color: color,
+          color: rainbow[percentage],
         ),
         Stack(
           alignment: Alignment.center,
@@ -109,7 +132,7 @@ class BatteryDischargingWidget extends StatelessWidget {
             Container(
               alignment: Alignment.centerLeft,
               margin: const EdgeInsets.symmetric(vertical: 8),
-              width: 150,
+              width: 100,
               decoration: BoxDecoration(
                 color: Colors.black87,
                 borderRadius: BorderRadius.circular(20),
@@ -117,7 +140,7 @@ class BatteryDischargingWidget extends StatelessWidget {
               child: Container(
                 width: percentage.toInt() * 1.5,
                 decoration: BoxDecoration(
-                  color: color,
+                  color: rainbow[percentage],
                   borderRadius: BorderRadius.circular(20),
                 ),
               ),

@@ -24,9 +24,9 @@ class _WorkspaceState extends State<Workspace> {
         return Container(
           margin: const EdgeInsets.symmetric(vertical: 5),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-          decoration: const BoxDecoration(
-              color: Colors.grey,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+          decoration: BoxDecoration(
+              color: Colors.grey.shade900,
+              borderRadius: const BorderRadius.all(Radius.circular(20))),
           child: Row(
               children:
                   List.generate(state.numberOfWorkspaces, (index) => index)

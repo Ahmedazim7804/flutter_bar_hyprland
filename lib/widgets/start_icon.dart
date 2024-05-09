@@ -6,7 +6,8 @@ class StartIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-        height: 30, child: SvgPicture.asset('assets/startIcon.svg'));
+    return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 8),
+        child: SvgPicture.asset('assets/startIcon.svg', width: 30, height: 30));
   }
 }

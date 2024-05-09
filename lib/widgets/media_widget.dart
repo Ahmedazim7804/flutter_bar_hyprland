@@ -41,7 +41,7 @@ class MediaStatePlayingContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       width: 250,
       decoration: BoxDecoration(
           color: Colors.red,
@@ -111,7 +111,7 @@ class MediaStatePausedContentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       width: 250,
       decoration: BoxDecoration(
           color: Colors.red,

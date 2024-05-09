@@ -88,9 +88,13 @@ class _BluetoothConnectedWigetState extends State<BluetoothConnectedWiget>
                   child: Align(
                     alignment: Alignment.centerLeft,
                     widthFactor: animation.value,
-                    child: Text(
-                      widget.name,
-                      style: const TextStyle(color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text(
+                        widget.name,
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 );

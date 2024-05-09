@@ -90,9 +90,13 @@ class _WifiConnectedWidgetState extends State<WifiConnectedWidget>
                   child: Align(
                     alignment: Alignment.centerLeft,
                     widthFactor: animation.value,
-                    child: Text(
-                      widget.wifiInfo.wifiSsid!,
-                      style: const TextStyle(color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Text(
+                        widget.wifiInfo.wifiSsid!,
+                        style: const TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 );

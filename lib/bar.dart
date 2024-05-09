@@ -1,3 +1,4 @@
+import 'package:bar/widgets/datetime_widget.dart';
 import 'package:bar/widgets/media_widget.dart';
 import 'package:bar/widgets/power_widget.dart';
 import 'package:bar/widgets/start_icon.dart';
@@ -33,9 +34,7 @@ class _MyBarState extends State<MyBar> {
               Spacer(),
               SystemTray(),
               PowerWidget(),
-              SizedBox(
-                width: 50,
-              )
+              DateTimeWidget(),
             ],
           ),
         ));

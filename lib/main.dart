@@ -10,8 +10,10 @@ import 'package:bar/bar.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
   FlutterLayerShell.configure(edge: LayerShellEdge.TOP, size: 40);
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     home: MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => WorkspaceCubit()),
