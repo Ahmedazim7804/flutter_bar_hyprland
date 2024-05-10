@@ -7,11 +7,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_layer_shell/flutter_layer_shell.dart';
 import 'package:bar/bar.dart';
+import 'package:wayland_layer_shell/types.dart';
+import 'package:wayland_layer_shell/wayland_layer_shell.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  FlutterLayerShell.configure(edge: LayerShellEdge.TOP, size: 40);
+  final waylandLayerShellPlugin = WaylandLayerShell();
+  int barHeight = 40;
+  await waylandLayerShellPlugin.initialize(1920, barHeight);
+  await waylandLayerShellPlugin.setAnchor(ShellEdge.edgeTop, true);
+  waylandLayerShellPlugin.setLayer(ShellLayer.layerTop);
+  await waylandLayerShellPlugin.setExclusiveZone(40);
+  // waylandLayerShellPlugin.setExclusiveZone(barHeight);
+  // await waylandLayerShellPlugin
+  //     .setKeyboardMode(ShellKeyboardMode.keyboardModeExclusive);
+  // FlutterLayerShell.configure(edge: LayerShellEdge.TOP, size: 40);
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: MultiBlocProvider(

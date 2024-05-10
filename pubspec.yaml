@@ -47,6 +47,7 @@ dependencies:
   bluez: ^0.8.2
   intl: ^0.19.0
   rainbow_color: ^2.0.1
+  wayland_layer_shell: ^1.0.1
 
 dev_dependencies:
   flutter_test:

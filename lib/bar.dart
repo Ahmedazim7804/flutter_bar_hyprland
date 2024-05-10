@@ -5,6 +5,7 @@ import 'package:bar/widgets/start_icon.dart';
 import 'package:bar/widgets/systray_widget.dart';
 import 'package:bar/widgets/workspace.dart';
 import 'package:flutter/material.dart';
+import 'package:wayland_layer_shell/wayland_layer_shell.dart';
 
 class MyBar extends StatefulWidget {
   const MyBar({super.key});
