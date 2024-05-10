@@ -16,6 +16,10 @@ class BatteryStream {
     _startStream();
   }
 
+  Future<void> _getInitialState() async {
+    eventListener.sink.add(await getBatteryInfo());
+  }
+
   Future<Battery> getBatteryInfo() async {
     double perc = (await _object.getPercentage()).asDouble();
     int state = (await _object.getState()).asUint32();
@@ -24,7 +28,9 @@ class BatteryStream {
         chargingState: BatteryCharging.fromValue(state), percentage: perc);
   }
 
-  void _startStream() {
+  void _startStream() async {
+    await _getInitialState();
+
     _object.getStreamOf({'State', 'Percentage'}).listen((event) async {
       eventListener.sink.add(Battery.fromJson(event));
     });
