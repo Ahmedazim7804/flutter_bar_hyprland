@@ -44,10 +44,13 @@ class Hyperland {
   StreamController eventListener = StreamController<HyprlandEvent>();
 
   Hyperland() {
-    const String address1 =
-        "/tmp/hypr/84ab8d11e8951a6551d1e1bf87796a8589da6d47_1715337374/.socket.sock";
-    const String address2 =
-        "/tmp/hypr/84ab8d11e8951a6551d1e1bf87796a8589da6d47_1715337374/.socket2.sock";
+    Map<String, String> envs = Platform.environment;
+
+    String hyprlandInstanceSignature = envs["HYPRLAND_INSTANCE_SIGNATURE"]!;
+
+    final String address1 = "/tmp/hypr/$hyprlandInstanceSignature/.socket.sock";
+    final String address2 =
+        "/tmp/hypr/$hyprlandInstanceSignature/.socket2.sock";
     host1 = InternetAddress(address1, type: InternetAddressType.unix);
     host2 = InternetAddress(address2, type: InternetAddressType.unix);
 
