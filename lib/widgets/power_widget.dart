@@ -138,7 +138,7 @@ class BatteryDischargingWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Container(
-                width: percentage.toInt() * 1.5,
+                width: percentage,
                 decoration: BoxDecoration(
                   color: rainbow[percentage],
                   borderRadius: BorderRadius.circular(20),
