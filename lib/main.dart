@@ -31,6 +31,8 @@ void main() async {
 
   late final String wifiDoubleClick;
   late final String bluetoothDoubleClick;
+  late final String startIconClick;
+  late final String backgroundColor;
 
   try {
     wifiDoubleClick = config['wifi']['double_click'];
@@ -42,6 +44,18 @@ void main() async {
     bluetoothDoubleClick = config['bluetooth']['double_click'];
   } catch (e) {
     bluetoothDoubleClick = "";
+  }
+
+  try {
+    startIconClick = config['start']['click'];
+  } catch (e) {
+    startIconClick = "";
+  }
+
+  try {
+    backgroundColor = config['background_color'];
+  } catch (e) {
+    backgroundColor = "";
   }
 
   final waylandLayerShellPlugin = WaylandLayerShell();
@@ -67,8 +81,11 @@ void main() async {
         child: MultiProvider(providers: [
           Provider.value(
               value: ConfigProvider(
-                  wifiDoubleClick: wifiDoubleClick,
-                  bluetoothDoubleClick: bluetoothDoubleClick)),
+            wifiDoubleClick: wifiDoubleClick,
+            bluetoothDoubleClick: bluetoothDoubleClick,
+            startIconClick: startIconClick,
+            backgroundColorHex: backgroundColor,
+          )),
           Provider.value(value: ShellProvider())
         ], child: const MyBar())),
   ));
