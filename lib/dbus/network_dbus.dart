@@ -67,10 +67,16 @@ class OrgFreedesktopNetworkManager extends DBusRemoteObject {
   /// Stream of org.freedesktop.NetworkManager.DeviceRemoved signals.
   late final Stream<OrgFreedesktopNetworkManagerDeviceRemoved> deviceRemoved;
 
+  late final DBusRemoteObject _wifiDevice;
+
   OrgFreedesktopNetworkManager(DBusClient client, String destination,
       {DBusObjectPath path =
           const DBusObjectPath.unchecked('/org/freedesktop/NetworkManager')})
       : super(client, name: destination, path: path) {
+    _wifiDevice = DBusRemoteObject(this.client,
+        name: 'org.freedesktop.NetworkManager',
+        path: DBusObjectPath('/org/freedesktop/NetworkManager/Devices/2'));
+
     checkPermissions = DBusRemoteObjectSignalStream(
             object: this,
             interface: 'org.freedesktop.NetworkManager',
@@ -103,6 +109,28 @@ class OrgFreedesktopNetworkManager extends DBusRemoteObject {
         .asBroadcastStream()
         .map((signal) => OrgFreedesktopNetworkManagerDeviceRemoved(signal));
   }
+
+  Future<void> requestScan() async {
+    await _wifiDevice.callMethod(
+      'org.freedesktop.NetworkManager.Device.Wireless',
+      'RequestScan',
+      [DBusDict(DBusSignature('s'), DBusSignature('v'), {})],
+    );
+  }
+
+  Future<void> getAllAccessPoints() async {
+    await _wifiDevice.callMethod(
+      'org.freedesktop.NetworkManager.Device.Wireless',
+      'GetAllAccessPoints',
+      [],
+    );
+  }
+
+  Future<void> activateConnection() async {}
+
+  Future<void> addAndActivateConnection() async {}
+
+  Future<void> addAndActivateConnection2() async {}
 
   /// Gets org.freedesktop.NetworkManager.Devices
   Future<List<DBusObjectPath>> getDevices() async {

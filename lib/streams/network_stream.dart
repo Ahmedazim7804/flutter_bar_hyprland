@@ -109,6 +109,29 @@ class NetworkStream {
         _client, "org.freedesktop.NetworkManager",
         path: DBusObjectPath('/org/freedesktop/NetworkManager'));
 
+    var client2 = DBusClient.system();
+    var object2 = DBusRemoteObject(client2,
+        name: 'org.freedesktop.NetworkManager',
+        path: DBusObjectPath('/org/freedesktop/NetworkManager/Devices/2'));
+
+    var result23 = object2.callMethod(
+      'org.freedesktop.NetworkManager.Device.Wireless',
+      'RequestScan',
+      [DBusDict(DBusSignature('s'), DBusSignature('v'), {})],
+    ).then((value) {
+      for (var element in (value).returnValues) {
+        print(element);
+      }
+    });
+
+    // var result2 = object2.callMethod(
+    //   'org.freedesktop.NetworkManager.Device.Wireless',
+    //   'GetAllAccessPoints',
+    //   [],
+    // ).then((value) {
+    //   print(value.returnValues);
+    // });
+
     _startStream();
   }
 
@@ -171,7 +194,6 @@ class NetworkStream {
     int connectivity = allProps['Connectivity']!.asUint32();
 
     NS state = NS.fromValue(allProps['State']!.asUint32());
-    print(state.toString());
 
     DBusObjectPath primaryConnectionPath =
         allProps['PrimaryConnection']!.asObjectPath();
