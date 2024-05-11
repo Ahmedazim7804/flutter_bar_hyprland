@@ -16,7 +16,11 @@ class SystemTray extends StatelessWidget {
         alignment: Alignment.center,
         child: const Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [NetworkWidget(), BluetoothWidget(), BrightnessWidget()],
+          children: [
+            NetworkWidget(),
+            BluetoothWidget(),
+            BrightnessWidget(),
+          ],
         ));
   }
 }

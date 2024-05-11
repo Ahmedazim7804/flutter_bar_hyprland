@@ -1,5 +1,5 @@
 #include "my_application.h"
-#include <flutter_layer_shell/flutter_layer_shell_plugin.h>
+// #include <flutter_layer_shell/flutter_layer_shell_plugin.h>
 #include <flutter_linux/flutter_linux.h>
 #ifdef GDK_WINDOWING_X11
 #include <gdk/gdkx.h>
@@ -55,7 +55,7 @@ static void my_application_activate(GApplication *application)
     gtk_window_set_title(window, "bar");
   }
 
-  gtk_window_set_default_size(window, 1920, 720);
+  gtk_window_set_default_size(window, 1920, 900);
   gtk_widget_realize(GTK_WIDGET(window));
   // gtk_widget_show(GTK_WIDGET(window));
 

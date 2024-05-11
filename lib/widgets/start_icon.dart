@@ -6,8 +6,30 @@ class StartIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: const EdgeInsets.symmetric(horizontal: 8),
-        child: SvgPicture.asset('assets/startIcon.svg', width: 30, height: 30));
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Start Menu'),
+              content: const Text('This is the start menu'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+      child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 8),
+          child:
+              SvgPicture.asset('assets/startIcon.svg', width: 30, height: 30)),
+    );
   }
 }
