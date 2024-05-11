@@ -4,7 +4,9 @@ import 'package:bar/widgets/network_widget.dart';
 import 'package:flutter/material.dart';
 
 class SystemTray extends StatelessWidget {
-  const SystemTray({super.key});
+  const SystemTray({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

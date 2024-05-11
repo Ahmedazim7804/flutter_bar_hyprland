@@ -1,36 +1,53 @@
 import 'package:bar/bloc/cubit/bluetooth_cubit.dart';
+import 'package:bar/provider/config_provider.dart';
+import 'package:bar/provider/shell_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:process_run/process_run.dart';
+import 'package:provider/provider.dart';
 
 class BluetoothWidget extends StatelessWidget {
   const BluetoothWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: Colors.grey.shade900,
+    final Shell shell =
+        Provider.of<ShellProvider>(context, listen: false).shell;
+    final String command =
+        Provider.of<ConfigProvider>(context).bluetoothDoubleClick;
+    return Listener(
+      child: GestureDetector(
+        onDoubleTap: () {
+          if (command.isNotEmpty) {
+            shell.run(command);
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.grey.shade900,
+          ),
+          child: BlocBuilder<BluetoothCubit, BluetoothState>(
+              builder: (context, state) {
+            if (state is BluetoothDisabled) {
+              return const BluetoothDisabledIcon();
+            } else if (state is BluetoothConnected) {
+              return BluetoothConnectedWiget(
+                name: state.name,
+              );
+            } else if (state is BluetoothConnecting) {
+              return const BluetoothLoadingAnimation();
+            } else if (state is BluetoothDisconnected) {
+              return const BluetoothDisconnectedIcon();
+            } else {
+              return const BluetoothDisabledIcon();
+            }
+          }),
+        ),
       ),
-      child: BlocBuilder<BluetoothCubit, BluetoothState>(
-          builder: (context, state) {
-        if (state is BluetoothDisabled) {
-          return const BluetoothDisabledIcon();
-        } else if (state is BluetoothConnected) {
-          return BluetoothConnectedWiget(
-            name: state.name,
-          );
-        } else if (state is BluetoothConnecting) {
-          return const BluetoothLoadingAnimation();
-        } else if (state is BluetoothDisconnected) {
-          return const BluetoothDisconnectedIcon();
-        } else {
-          return const BluetoothDisabledIcon();
-        }
-      }),
     );
   }
 }
