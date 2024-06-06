@@ -47,10 +47,12 @@ class Hyperland {
     Map<String, String> envs = Platform.environment;
 
     String hyprlandInstanceSignature = envs["HYPRLAND_INSTANCE_SIGNATURE"]!;
+    String xdgRuntimeDir = envs["XDG_RUNTIME_DIR"]!;
 
-    final String address1 = "/tmp/hypr/$hyprlandInstanceSignature/.socket.sock";
+    final String address1 =
+        "$xdgRuntimeDir/hypr/$hyprlandInstanceSignature/.socket.sock";
     final String address2 =
-        "/tmp/hypr/$hyprlandInstanceSignature/.socket2.sock";
+        "$xdgRuntimeDir/hypr/$hyprlandInstanceSignature/.socket2.sock";
     host1 = InternetAddress(address1, type: InternetAddressType.unix);
     host2 = InternetAddress(address2, type: InternetAddressType.unix);
 
