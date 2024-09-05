@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:marquee/marquee.dart';
+import 'package:text_marquee/text_marquee.dart';
 
 class MediaWidget extends StatefulWidget {
   const MediaWidget({super.key});
@@ -75,19 +75,14 @@ class MediaStatePlayingContentWidget extends StatelessWidget {
           ),
           const Icon(Icons.music_note, color: Colors.white),
           Expanded(
-            child: Marquee(
-              text: "${mediaStatus.artist} - ${mediaStatus.title}",
+            child: TextMarquee(
+              "${mediaStatus.artist} - ${mediaStatus.title}",
               style: const TextStyle(
                   fontWeight: FontWeight.bold, color: Colors.white),
-              scrollAxis: Axis.horizontal,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              blankSpace: 20.0,
-              velocity: 50.0,
-              accelerationDuration: const Duration(seconds: 1),
-              accelerationCurve: Curves.linear,
-              pauseAfterRound: Duration.zero,
-              decelerationDuration: const Duration(milliseconds: 500),
-              decelerationCurve: Curves.easeInOut,
+              duration: const Duration(seconds: 3),
+              delay: const Duration(seconds: 0),
+              spaceSize: 20.0,
+              curve: Curves.linear,
             ),
           )
         ],
