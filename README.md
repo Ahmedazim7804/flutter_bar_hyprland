@@ -1,16 +1,8 @@
-# bar
+# Flutter Hyprland Bar
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+# How to run
+1. Download the files from Release Section
+2. Extract the `bar.tar.gz`
+3. `chmod +x bar`
+4. Copy ![config file](https://raw.githubusercontent.com/Ahmedazim7804/flutter_bar_hyprland/refs/heads/master/config.json) to  `~/.config/mybar/config.json`
+5. `./bar`
