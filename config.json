@@ -1,0 +1,12 @@
+{
+    "wifi": {
+        "double_click": "networkmanager_dmenu"
+    },
+    "bluetooth": {
+        "double_click": "rofi-bluetooth"
+    },
+    "start": {
+       "click": "rofi -show drun"
+    },
+    "background_color": "#080C0D"
+} 
